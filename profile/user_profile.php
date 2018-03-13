@@ -2,7 +2,7 @@
 <?php
 require './dbConnect.php';
 $id = $_GET['u'];
-$sql = "select * from userprofile INNER JOIN user ON userprofile.user_id = user.user_id where user.user_id = $id";
+$sql = "select * from userprofile INNER JOIN user ON userprofile.user_id = user.user_id where user.user_id = '$id'";
 $result = mysqli_query($connect,$sql) or die (mysqli_error($connect));
 $row = mysqli_fetch_assoc($result);
 session_start();
@@ -47,7 +47,7 @@ else{
 <!-- Links -->
 <ul class='navbar-nav mr-auto'>
 <li class='nav-item'>
-    
+
 </li>
 </ul>
 <div id="buttonUser">
@@ -271,7 +271,7 @@ else{
 
                                       <!--  <input type="submit" name="submit" class="a-save" href="user_profile.php">Save</a>-->
                                     <!--    <a class="a-cancel" href="user_profile.php">Cancel</a>-->
-                                        <a class="a-cancel" href="user_profile.php">Cancel</a>
+                                        <a class="a-cancel" href="user_profile.php?u=<?php echo $id; ?>">Cancel</a>
                                       </div>
                                       <script>
                                       function readURL(input) {
