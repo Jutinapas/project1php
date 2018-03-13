@@ -5,14 +5,14 @@ $ses_userid = "";
 $ses_username = "";
 $ses_userstatus ="";
 if(isset($_SESSION['ses_sesid']) && isset($_SESSION['ses_userid']) && isset($_SESSION['ses_username']) && isset($_SESSION['ses_status'])){
-    $ses_sesid = $_SESSION['ses_sesid'];  
-    $ses_userid =$_SESSION['ses_userid'];                                          
-    $ses_username = $_SESSION['ses_username'];   
+    $ses_sesid = $_SESSION['ses_sesid'];
+    $ses_userid =$_SESSION['ses_userid'];
+    $ses_username = $_SESSION['ses_username'];
     $ses_userstatus = $_SESSION['ses_status'];
-}     
+}
 
 if($ses_sesid <> session_id() or $ses_userstatus !="organizers"){
-    
+
 }
 else{
 
@@ -23,7 +23,7 @@ $organizer_id = $ses_userid;
 
 if ($_POST['request'] === 'requesting') {
 
-	$query = "SELECT userevent.user_id, user.user_email, userevent.event_id, event_detail.event_name, userevent.user_status FROM (userevent INNER JOIN event_detail) INNER JOIN user ON event_detail.event_id = userevent.event_id WHERE event_detail.user_id = '$organizer_id' and userevent.user_id = user.user_id ORDER BY userevent.user_status DESC";
+	$query = "SELECT userevent.user_id, user.user_email, userevent.event_id, event_detail.event_name, userevent.user_status FROM (userevent INNER JOIN event_detail) INNER JOIN user ON event_detail.event_id = userevent.event_id WHERE event_detail.user_id = '$organizer_id' and userevent.user_id = user.user_id ORDER BY event_id ASC, userevent.user_status DESC";
 	$result = $conn->query($query);
 	if ($result->num_rows > 0) {
         $event_id = "0";
@@ -43,7 +43,7 @@ if ($_POST['request'] === 'requesting') {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>E-mail</th> 
+                            <th>E-mail</th>
                             <th>Status</th>
                             <th><input type='checkbox' style='width: 20px; height: 20px;' class='select-all' id='select-all-".$row['event_id']."'><label for='select-all-'".$row['event_id'].">Select All</label></th>
                         </tr>
@@ -81,7 +81,7 @@ if ($_POST['request'] === 'requesting') {
 	} else {
     	echo "<p class='text-center display-4'>No New Applying Request</p>";
     }
- 
+
 
 } else {
 
@@ -109,11 +109,11 @@ $conn->close();
 function sendMail($src, $src_name, $dest, $dest_name, $subject, $text) {
     date_default_timezone_set('Asia/Bangkok');
     require 'PHPMailer/PHPMailerAutoload.php';
- 
+
     $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->SMTPDebug = 0;
-    $mail->Debugoutput = 'html';    
+    $mail->Debugoutput = 'html';
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 587;
     $mail->SMTPSecure = 'tls';
